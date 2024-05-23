@@ -2,14 +2,9 @@ from abc import ABC, abstractmethod
 
 
 class Solution(ABC):
-    """Base class for solutions. All soltions must be immutable"""
+    """Base class for solutions. All soltions must be immutable, therefore, the values inside the solution must be storage inside a private variable"""
 
-    def __init__(self, *args, **kargs) -> None:
-        ...
-
-    def __str__(self) -> str:
-        ...
-
+    @property
     @abstractmethod
     def evaluate(self) -> float:
         """Return how good or bad the current solution is.
@@ -17,7 +12,13 @@ class Solution(ABC):
         Returns:
             float: Score that represents the evaluated solution
         """
-        ...
+        pass
+
+    @property
+    @abstractmethod
+    def value(self):
+        """Return the value of the solution (data structure or whatever you choose to be)."""
+        pass
 
 
 class HeuristicProblem(ABC):
