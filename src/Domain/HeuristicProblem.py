@@ -24,9 +24,6 @@ class Solution(ABC):
 class HeuristicProblem(ABC):
     """Abstract class to represent a heuristic problem."""
 
-    def __init__(self) -> None:
-        ...
-
     @abstractmethod
     def create_solution(self, base_solution: Solution | None = None) -> Solution:
         """Creates a random solution for the given problem.
@@ -36,4 +33,15 @@ class HeuristicProblem(ABC):
         Returns:
             Solution: Newly generated solution.
         """
-        ...
+
+    @abstractmethod
+    def compare_solutions(self, solution1: Solution, solution2: Solution) -> Solution:
+        """Compare two solutions returning the best one
+
+        Args:
+            solution1 (Solution): first solution
+            solution2 (Solution): second solution
+
+        Returns:
+            Solution: best solution between the two solutions
+        """
