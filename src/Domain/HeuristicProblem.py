@@ -6,7 +6,7 @@ class Solution(ABC):
 
     @property
     @abstractmethod
-    def evaluate(self) -> float:
+    def evaluation(self) -> float:
         """Return how good or bad the current solution is.
 
         Returns:
