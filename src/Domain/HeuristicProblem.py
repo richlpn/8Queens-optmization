@@ -28,7 +28,7 @@ class HeuristicProblem(ABC):
         ...
 
     @abstractmethod
-    def random_solution(self, base_solution: Solution | None = None) -> Solution:
+    def create_solution(self, base_solution: Solution | None = None) -> Solution:
         """Creates a random solution for the given problem.
 
         Args:
