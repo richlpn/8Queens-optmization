@@ -17,7 +17,7 @@ class Solution(ABC):
 
     @property
     @abstractmethod
-    def value(self):
+    def value(self) -> np.ndarray[int]:  # type: ignore
         """Return the value of the solution (data structure or whatever you choose to be)."""
         pass
 
