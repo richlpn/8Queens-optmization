@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import numpy as np
 
 
 class Solution(ABC):
@@ -18,6 +19,16 @@ class Solution(ABC):
     @abstractmethod
     def value(self):
         """Return the value of the solution (data structure or whatever you choose to be)."""
+        pass
+
+    @value.setter
+    @abstractmethod
+    def set_value(self, combination: np.ndarray):
+        """Set the value of the solution
+
+        Args:
+            combination (np.ndarray): array of size 8 contaning integers
+        """
         pass
 
 
