@@ -121,7 +121,7 @@ class GeneticAlgorithm:
     def fitness(self, population: Population) -> list[tuple[Solution, float]]:
         return [(i, i.evaluation) for i in population.individuals]
 
-    def solve(self):
+    def solve(self) -> Solution:
 
         population = self.create_initial_population()
 
@@ -138,5 +138,5 @@ class GeneticAlgorithm:
             # UNTIL population has converged
             custosPopulacao = self.fitness(population)
             new_best = min(custosPopulacao, key=lambda x: x[1])
-            if new_best[0] == 0:
-                return new_best
+            if new_best[1] == 0:
+                return new_best[0]
