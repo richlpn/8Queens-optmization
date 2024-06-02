@@ -56,13 +56,14 @@ class HeuristicProblem(ABC):
         """
 
     @abstractmethod
-    def compare_solutions(self, solution1: Solution, solution2: Solution) -> Solution:
-        """Compare two solutions returning the best one
+    def compare_solutions(self, solution1: Solution, solution2: Solution, best: bool = True) -> Solution:
+        """Compare two solutions returning the according to the best param.
 
         Args:
             solution1 (Solution): first solution
             solution2 (Solution): second solution
+            best (bool): When set to False the return solution will be the worst of then.  Defaults to True.
 
         Returns:
-            Solution: best solution between the two solutions
+            Solution: solution between the two solutions
         """
