@@ -1,4 +1,5 @@
 import itertools
+from typing import Generator
 from Domain.HeuristicProblem import HeuristicProblem, Solution
 import numpy as np
 
@@ -66,23 +67,30 @@ class EightQueenSolution(Solution):
 
 class EightQueenProblem(HeuristicProblem):
 
-    BOARD_SIZE: int = 8
+    def create_solution(self, base_solution: np.ndarray | None = None, size: int | None = None) -> Solution:
 
-    def create_solution(self, base_solution: Solution | None = None) -> Solution:
-
-        # TODO: Validate base
-        # TODO: isn't Valid -> wise raise an error
-        # TODO: base is None -> return random solution
-        # TODO: base is valid -> return a neighbot of the solution
-
-        if base_solution is None:
+        if size is None and base_solution is None:
+            raise ValueError("Solution size not informed")
+        elif isinstance(size, int):
             comb = np.random.randint(
-                low=1, high=self.BOARD_SIZE + 1, size=self.BOARD_SIZE)
+                low=1, high=size + 1, size=size)
 
             return EightQueenSolution(comb)
 
-        elif not isinstance(base_solution, Solution):
+        if not isinstance(base_solution, np.ndarray):
             raise ValueError(
                 "base solution informed doesn't follow the required class")
 
-        return EightQueenSolution(comb)
+        return EightQueenSolution(combination=base_solution)
+
+    def generate_neighbor(self, base: Solution) -> Generator[Solution, Solution, None]:
+        VT = base.value
+        N = len(VT)
+
+        for col in range(N):
+            for linha in range(N):
+
+                if linha != VT[col]:
+                    vizinho = VT.copy()
+                    vizinho[col] = linha
+                    yield EightQueenSolution(vizinho)
