@@ -16,7 +16,7 @@ class Solution(ABC):
 
     @property
     @abstractmethod
-    def value(self) -> np.ndarray:
+    def value(self) -> np.ndarray[int]:  # type: ignore
         """Return the value of the solution (data structure or whatever you choose to be)."""
 
     @value.setter
@@ -34,13 +34,25 @@ class HeuristicProblem(ABC):
     """Abstract class to represent a heuristic problem."""
 
     @abstractmethod
-    def create_solution(self, base_solution: Solution | None = None) -> Solution:
+    def create_solution(self, base_solution: np.ndarray | None = None, size: int | None = None) -> Solution:
         """Creates a random solution for the given problem.
 
         Args:
-            base_solution (Solution | None, optional): if informed the solution generated will be based on this solution. Defaults to None.
+            base_solution (np.ndarray[int]):if not informed the solution generated will random. Defaults to None. 
+            size (int | None): Solution size. Must be informe when the base is None. Defaults to None.
         Returns:
             Solution: Newly generated solution.
+        """
+
+    @abstractmethod
+    def generate_neighbor(self, base: Solution) -> Solution:
+        """Returns a closer combination to the informed base.
+
+        Args:
+            base (Solution | None): Base solution used to generate a new combination
+
+        Returns:
+            Solution: Neighbor
         """
 
     @abstractmethod
