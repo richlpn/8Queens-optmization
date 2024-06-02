@@ -13,13 +13,11 @@ class Solution(ABC):
         Returns:
             float: Score that represents the evaluated solution
         """
-        pass
 
     @property
     @abstractmethod
-    def value(self):
+    def value(self) -> np.ndarray:
         """Return the value of the solution (data structure or whatever you choose to be)."""
-        pass
 
     @value.setter
     @abstractmethod
