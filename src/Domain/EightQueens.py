@@ -1,6 +1,6 @@
 import itertools
 from typing import Generator
-from Domain.HeuristicProblem import HeuristicProblem, Solution
+from .HeuristicProblem import HeuristicProblem, Solution
 import numpy as np
 
 
@@ -11,14 +11,17 @@ class EightQueenSolution(Solution):
     def __init__(self, combination: np.ndarray[int]) -> None:  # type: ignore
         self.value: np.ndarray[int] = combination.copy()  # type: ignore
 
+    def __str__(self) -> str:
+        return f'EightQueenSolution(combination={self._combination}, evaluation={self.evaluation})'
+
     @property
     def value(self) -> np.ndarray[int]:  # type: ignore
         return self._combination.copy()
 
     @value.setter
-    def set_value(self, comb: np.ndarray[int]):  # type: ignore
+    def value(self, comb: np.ndarray[int]):  # type: ignore
 
-        if not isinstance(comb, np.ndarray) or comb.size == 0 or not isinstance(comb[0], int):
+        if not isinstance(comb, np.ndarray) or comb.size == 0:
 
             raise ValueError(f"Combination: {comb}, is invalid")
 
@@ -60,6 +63,7 @@ class EightQueenSolution(Solution):
 
         return ataques
 
+    @property
     def evaluation(self) -> float:
 
         return self.__count_line_attacks() + self.__count_diagonals_attacks()
@@ -94,3 +98,9 @@ class EightQueenProblem(HeuristicProblem):
                     vizinho = VT.copy()
                     vizinho[col] = linha
                     yield EightQueenSolution(vizinho)
+
+    def compare_solutions(self, sol1: Solution, sol2: Solution) -> Solution:
+        sol1_val = sol1.evaluation
+        sol2_val = sol2.evaluation
+
+        return sol1 if sol1_val < sol2_val else sol2

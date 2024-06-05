@@ -1,6 +1,6 @@
 from random import choice
 import numpy as np
-from Domain.HeuristicProblem import HeuristicProblem, Solution
+from ..Domain.HeuristicProblem import HeuristicProblem, Solution
 from dataclasses import dataclass
 
 
@@ -127,7 +127,9 @@ class GeneticAlgorithm:
 
         custosPopulacao = self.fitness(population)
 
-        while True:
+        best = min(custosPopulacao, key=lambda x: x[1])
+
+        for _ in range(self._gen_size):
             children = self.crossover_population(population)
             children = self.mutate_population(children)
             population.individuals.extend(children.individuals)
@@ -137,6 +139,7 @@ class GeneticAlgorithm:
 
             # UNTIL population has converged
             custosPopulacao = self.fitness(population)
-            new_best = min(custosPopulacao, key=lambda x: x[1])
-            if new_best[1] == 0:
-                return new_best[0]
+            best = min(custosPopulacao, key=lambda x: x[1])
+            if best[1] == 0:
+                return best[0]
+        return best[0]

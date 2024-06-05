@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Generator
 import numpy as np
 
 
@@ -21,7 +22,7 @@ class Solution(ABC):
 
     @value.setter
     @abstractmethod
-    def set_value(self, combination: np.ndarray):
+    def value(self, combination: np.ndarray):
         """Set the value of the solution
 
         Args:
@@ -45,12 +46,24 @@ class HeuristicProblem(ABC):
         """
 
     @abstractmethod
-    def generate_neighbor(self, base: Solution) -> Solution:
-        """Returns a closer combination to the informed base.
+    def generate_neighbor(self, base: Solution) -> Generator[Solution, Solution, None]:
+        """Returns a generator containing the next combination to the informed base.
 
         Args:
             base (Solution | None): Base solution used to generate a new combination
 
         Returns:
-            Solution: Neighbor
+            Generator[Solution, Solution, None]
+        """
+
+    @abstractmethod
+    def compare_solutions(self, sol1: Solution, sol2: Solution) -> Solution:
+        """Returns the best solution
+
+        Args:
+            sol1 (Solution): Solution to be compared
+            sol2 (Solution): Solution to be compared
+
+        Returns:
+            Solution: Best solution
         """
