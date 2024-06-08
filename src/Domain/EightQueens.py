@@ -14,6 +14,9 @@ class EightQueenSolution(Solution):
     def __str__(self) -> str:
         return f'EightQueenSolution(combination={self._combination}, evaluation={self.evaluation})'
 
+    def __repr__(self) -> str:
+        return str(self)
+
     @property
     def value(self) -> np.ndarray[int]:  # type: ignore
         return self._combination.copy()

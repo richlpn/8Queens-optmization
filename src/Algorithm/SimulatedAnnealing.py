@@ -1,6 +1,7 @@
 import random
 import math
 
+
 from ..Domain.HeuristicProblem import HeuristicProblem, Solution
 
 
@@ -28,6 +29,9 @@ class SA:
 
     def solve(self, size: int) -> Solution:
 
+        self.metrics = []
+        obj_calls = 1  # Objective is called once before the loop
+
         current_solution = self._domain.create_solution(size=size)
         current_fitness = self.objective_function(current_solution)
 
@@ -40,6 +44,7 @@ class SA:
 
             for neighbor in self._domain.generate_neighbor(current_solution):
                 new_fitness = self.objective_function(neighbor)
+                obj_calls += 1
 
                 acceptance_prob = self.acceptance_probability(
                     current_fitness, new_fitness, temperature)
@@ -48,10 +53,12 @@ class SA:
                     current_solution = neighbor
                     current_fitness = new_fitness
 
-                if new_fitness > best_fitness:
-                    best_solution = neighbor
-                    best_fitness = new_fitness
+            if current_fitness < best_fitness:
+                best_solution = current_solution
+                best_fitness = current_fitness
 
             temperature *= self._cooling_rate
+
+            self.metrics.append((obj_calls, best_fitness))
 
         return best_solution

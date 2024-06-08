@@ -124,12 +124,14 @@ class GeneticAlgorithm:
     def solve(self) -> Solution:
 
         population = self.create_initial_population()
+        self.metrics = []
+        obj_calls = 1  # Objective is called once before the loop
 
         custosPopulacao = self.fitness(population)
 
         best = min(custosPopulacao, key=lambda x: x[1])
 
-        for _ in range(self._gen_size):
+        for x in range(self._gen_size):
             children = self.crossover_population(population)
             children = self.mutate_population(children)
             population.individuals.extend(children.individuals)
@@ -139,7 +141,9 @@ class GeneticAlgorithm:
 
             # UNTIL population has converged
             custosPopulacao = self.fitness(population)
+            obj_calls += len(population.individuals)
+
             best = min(custosPopulacao, key=lambda x: x[1])
-            if best[1] == 0:
-                return best[0]
+            self.metrics.append((obj_calls, best[1]))
+
         return best[0]

@@ -18,15 +18,21 @@ class HillClimbingRestart:
         best = solution
         for neighbor in self._problem.generate_neighbor(solution):
             best = self._problem.compare_solutions(neighbor, best)
+            self._obj_calls += 2
         return best
 
     def solve(self) -> Solution:
 
         best_state: Solution = self._problem.create_solution(size=self._size)
+        self._obj_calls = 0
+        self.metrics = []
+
         for x in range(self._max_restart):
             while True:
                 neighbor = self.get_best_neighbor(best_state)
-                if neighbor.evaluation > best_state.evaluation:
+                self.metrics.append((self._obj_calls, best_state.evaluation))
+
+                if neighbor.evaluation < best_state.evaluation:
                     best_state = neighbor
                 else:
                     break
