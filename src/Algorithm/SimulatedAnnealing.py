@@ -1,7 +1,6 @@
 import random
 import math
 
-
 from ..Domain.HeuristicProblem import HeuristicProblem, Solution
 
 
@@ -40,10 +39,14 @@ class SA:
         best_fitness = current_fitness
 
         temperature = self._init_temp
+        nrep = 20
+        curr_iter = 0
 
         while temperature > 0.1:  # Adjust the termination condition as needed
 
-            for neighbor in self._domain.generate_neighbor(current_solution):
+            for _ in range(nrep):
+                neighbor = next(
+                    self._domain.generate_neighbor(current_solution))
                 new_fitness = self.objective_function(neighbor)
 
                 acceptance_prob = self.acceptance_probability(
@@ -58,7 +61,9 @@ class SA:
                 best_fitness = current_fitness
 
             temperature *= self._cooling_rate
+            curr_iter += 1
 
-            self.metrics.append((self._obj_calls, best_fitness))
+            if curr_iter % 100 == 0:
+                self.metrics.append((self._obj_calls, best_fitness))
 
         return best_solution

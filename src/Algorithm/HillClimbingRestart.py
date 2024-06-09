@@ -30,6 +30,7 @@ class HillClimbingRestart:
         for x in range(self._max_restart):
             while True:
                 neighbor = self.get_best_neighbor(best_state)
+                self._obj_calls += 2  # Next if evaluation calls
                 self.metrics.append((self._obj_calls, best_state.evaluation))
 
                 if neighbor.evaluation < best_state.evaluation:
