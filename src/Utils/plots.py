@@ -7,10 +7,10 @@ plt.figure(figsize=(10, 6))
 
 
 def evaluation_evolution(metrics_df: pd.DataFrame):
-    sa = metrics_df[metrics_df['algorithm'] != 'SA']
-    other = metrics_df[metrics_df['algorithm'] == 'SA']
+    sa = metrics_df[metrics_df['algorithm'] == 'SA']
+    other = metrics_df[metrics_df['algorithm'] != 'SA']
     sns.lineplot(x='call', y='evaluation',
-                 data=sa, style='algorithm')
+                 data=other, style='algorithm')
 
     plt.title('Evolução dos algoritmos HC x GA')
     plt.xlabel('Chamadas para função objeivo/Fitness')
@@ -19,7 +19,7 @@ def evaluation_evolution(metrics_df: pd.DataFrame):
     plt.show()
 
     sns.lineplot(x='call', y='evaluation',
-                 data=other, style='algorithm')
+                 data=sa, style='algorithm')
     plt.title('Evolução do algoritmo SA')
     plt.xlabel('Chamadas para função objeivo/Fitness')
     plt.ylabel('Função Objetivo')
@@ -28,11 +28,10 @@ def evaluation_evolution(metrics_df: pd.DataFrame):
 
 
 def evaluation_boxplot(metrics_df: pd.DataFrame):
-
-    sns.boxplot(x='algorithm', y='call', data=metrics_df)
-    plt.title('Custo Após 30 execuções')
-    plt.xlabel('Algorithm')
-    plt.ylabel('Evaluation')
+    sns.boxplot(x='algorithm', y='evaluation', data=metrics_df)
+    plt.title('Qualidade das otimizações ao longo de 30 execuções')
+    plt.xlabel('Algoritmo')
+    plt.ylabel('Função Objetivo')
     plt.savefig(f'{PATH}/cost.png')
     plt.show()
 
